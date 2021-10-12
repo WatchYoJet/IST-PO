@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for x in tests/*.in; do
+for x in *.in; do
     if [ -e ${x%.in}.import ]; then
         java -cp :po-uilib.jar:. -Dimport=${x%.in}.import -Din=$x -Dout=${x%.in}.outhyp sth.app.App;
     else
