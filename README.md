@@ -11,6 +11,9 @@ Pode-se verificar com:
 
 Irei tambem colocar aqui um script para correr os testes, por enquanto estamos presos com o do prof (./runtests.sh).
 
+Para correr os testes basta fazer `make test`
+Para limpar todo o lixo antes de dar commit a alguma coisa basta fazer `make clean`
+
 O `po-ulib.jar` está na versão 15 do java.
 
 # Objetivos
