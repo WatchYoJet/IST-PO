@@ -1,14 +1,13 @@
-test:
-	@echo "--------------------"
-	@echo "CLEANING"
-	@echo "--------------------"
-	@make clean
+test: clean
 	@echo "--------------------"
 	@echo "STARTING TESTS"
 	@echo "--------------------"
 	@./tests/runtests.sh
 
-clean:
+clean:	
+	@echo "--------------------"
+	@echo "CLEANING"
+	@echo "--------------------"
 	@find . -type f -name '*.class' -delete
 	@find . -type f -name '*.outhyp' -delete
 	@find . -type f -name '*.diff' -delete
@@ -20,6 +19,7 @@ compile:
 execute:
 	@java -cp po-uilib.jar:. ggc.app.App
 
-run:
-	@make compile
-	@make execute
+run: compile execute
+	@echo "------------"
+	@echo "DONE"
+	@echo "------------"
