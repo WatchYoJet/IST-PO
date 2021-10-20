@@ -5,20 +5,18 @@ test: clean
 	@./tests/runtests.sh
 
 clean:
-	@echo "--------------------"
-	@echo "CLEANING"
-	@echo "--------------------"
+	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
 	@find . -type f -name '*.outhyp' -delete
 	@find . -type f -name '*.diff'   -delete
 
 compile: clean
-	@echo "--Compiling--"
+	@echo "--COMPILING--"
 	@javac -cp po-uilib.jar:. `find ggc -name '*.java'`
 	@echo "--DONE--"
 
 execute:
-	@echo "--Executing--"
+	@echo "--EXECUTING--"
 	@java -cp po-uilib.jar:. ggc.app.App
 	@echo "--DONE--"
 
