@@ -11,7 +11,7 @@ for x in *.in; do
     if [ -s ${x%.in}.diff ]; then
         echo "FAIL: $x. See file ${x%.in}.diff " ;
     else
-        echo -n "."
+        echo "."
         rm -f ${x%.in}.diff ${x%.in}.outhyp ; 
     fi
 done
