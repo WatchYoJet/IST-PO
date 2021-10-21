@@ -1,0 +1,75 @@
+cat $(find . -name '*.java') | grep -r "FIXME"
+
+
+---OUTPUT---
+app/transactions/DoRegisterBreakdownTransaction.java://FIXME import classes
+app/transactions/DoRegisterBreakdownTransaction.java:    //FIXME maybe add command fields
+app/transactions/DoRegisterBreakdownTransaction.java:    //FIXME implement command
+app/transactions/DoShowTransaction.java://FIXME import classes
+app/transactions/DoShowTransaction.java:    //FIXME maybe add command fields
+app/transactions/DoShowTransaction.java:    //FIXME implement command
+app/transactions/DoRegisterAcquisitionTransaction.java://FIXME import classes
+app/transactions/DoRegisterAcquisitionTransaction.java:    //FIXME maybe add command fields
+app/transactions/DoRegisterAcquisitionTransaction.java:    //FIXME implement command
+app/transactions/DoRegisterSaleTransaction.java://FIXME import classes
+app/transactions/DoRegisterSaleTransaction.java:    //FIXME maybe add command fields 
+app/transactions/DoRegisterSaleTransaction.java:    //FIXME implement command
+app/transactions/DoReceivePayment.java://FIXME import classes
+app/transactions/DoReceivePayment.java:    //FIXME add command fields
+app/transactions/DoReceivePayment.java:    //FIXME implement command
+app/partners/DoShowPartnerAcquisitions.java://FIXME import classes
+app/partners/DoShowPartnerAcquisitions.java:    //FIXME add command fields
+app/partners/DoShowPartnerAcquisitions.java:    //FIXME implement command 
+app/partners/DoShowPartner.java://FIXME import classes
+app/partners/DoShowPartner.java:    //FIXME add command fields
+app/partners/DoShowPartner.java:    //FIXME implement command
+app/partners/DoShowPartnerSales.java://FIXME import classes
+app/partners/DoShowPartnerSales.java:    //FIXME add command fields
+app/partners/DoShowPartnerSales.java:    //FIXME implement command
+app/partners/DoToggleProductNotifications.java://FIXME import classes
+app/partners/DoToggleProductNotifications.java:    //FIXME add command fields
+app/partners/DoToggleProductNotifications.java:    //FIXME implement command
+app/partners/DoRegisterPartner.java://FIXME import classes
+app/partners/DoRegisterPartner.java:    //FIXME add command fields
+app/partners/DoRegisterPartner.java:    //FIXME implement command
+app/partners/DoShowAllPartners.java://FIXME import classes
+app/partners/DoShowAllPartners.java:    //FIXME implement command
+app/lookups/DoLookupProductBatchesUnderGivenPrice.java://FIXME import classes
+app/lookups/DoLookupProductBatchesUnderGivenPrice.java:    //FIXME add command fields
+app/lookups/DoLookupProductBatchesUnderGivenPrice.java:    //FIXME implement command
+app/lookups/DoLookupPaymentsByPartner.java://FIXME import classes
+app/lookups/DoLookupPaymentsByPartner.java:    //FIXME add command fields
+app/lookups/DoLookupPaymentsByPartner.java:    //FIXME implement command
+app/products/DoShowBatchesByProduct.java://FIXME import classes
+app/products/DoShowBatchesByProduct.java:    //FIXME maybe add command fields
+app/products/DoShowBatchesByProduct.java:    //FIXME implement command
+app/products/DoShowBatchesByPartner.java://FIXME import classes
+app/products/DoShowBatchesByPartner.java:    //FIXME maybe add command fields
+app/products/DoShowBatchesByPartner.java:    //FIXME implement command
+app/products/DoShowAllProducts.java://FIXME import classes
+app/products/DoShowAllProducts.java:    //FIXME implement command
+app/products/DoShowAvailableBatches.java://FIXME import classes
+app/products/DoShowAvailableBatches.java:    //FIXME implement command
+app/main/DoOpenFile.java://FIXME import classes
+app/main/DoOpenFile.java:    //FIXME maybe add command fields
+app/main/DoOpenFile.java:      //FIXME implement command
+app/main/DoAdvanceDate.java://FIXME import classes
+app/main/DoAdvanceDate.java:    //FIXME add command fields
+app/main/DoAdvanceDate.java:    //FIXME implement command
+app/main/DoDisplayDate.java:    //FIXME implement command
+app/main/DoShowGlobalBalance.java:    //FIXME implement command
+app/main/DoSaveFile.java://FIXME import classes
+app/main/DoSaveFile.java:    //FIXME implement command and create a local Form
+core/WarehouseManager.java://FIXME import classes (cannot import from pt.tecnico or ggc.app)
+core/WarehouseManager.java:  //FIXME define other attributes
+core/WarehouseManager.java:  //FIXME define constructor(s)
+core/WarehouseManager.java:  //FIXME define other methods
+core/WarehouseManager.java:    //FIXME implement serialization method
+core/WarehouseManager.java:    //FIXME implement serialization method
+core/WarehouseManager.java:    } catch (IOException | BadEntryException /* FIXME maybe other exceptions */ e) {
+core/Warehouse.java:// FIXME import classes (cannot import from pt.tecnico or ggc.app)
+core/Warehouse.java:  // FIXME define attributes
+core/Warehouse.java:  // FIXME define contructor(s)
+core/Warehouse.java:  // FIXME define methods
+core/Warehouse.java:  void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
+core/Warehouse.java:    //FIXME implement method

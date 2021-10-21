@@ -63,5 +63,4 @@ public class WarehouseManager {
       throw new ImportFileException(textfile, e);
     }
   }
-
 }
