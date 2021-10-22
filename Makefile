@@ -1,3 +1,6 @@
+run: compile execute
+	@make clean
+
 test: clean
 	@echo "--------------------"
 	@echo "STARTING TESTS"
@@ -19,5 +22,3 @@ execute:
 	@echo "--EXECUTING--"
 	@java -cp po-uilib.jar:. ggc.app.App
 	@echo "--DONE--"
-
-run: compile execute

@@ -29,6 +29,16 @@ public class WarehouseManager {
    * @@throws FileNotFoundException
    * @@throws MissingFileAssociationException
    */
+
+  public int getDate(){
+    return _warehouse.getDate();
+  }
+
+  public void addDate(int increment){
+    _warehouse.addDate(increment);
+  }
+
+  
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
     //FIXME implement serialization method
   }
