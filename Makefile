@@ -6,7 +6,7 @@ test: clean
 	@echo "STARTING TESTS"
 	@echo "--------------------"
 	@./tests/runtests.sh
-
+	@notify-send "PO TESTS" "COMPLETED" &> /dev/null
 clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
