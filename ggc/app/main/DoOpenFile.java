@@ -2,6 +2,7 @@ package ggc.app.main;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
 import ggc.core.WarehouseManager;
 //FIXME import classes
 
@@ -9,6 +10,9 @@ import ggc.core.WarehouseManager;
  * Open existing saved state.
  */
 class DoOpenFile extends Command<WarehouseManager> {
+
+  Form _form = new Form();
+  String _fileName;
 
   /** @param receiver */
   DoOpenFile(WarehouseManager receiver) {
@@ -18,6 +22,7 @@ class DoOpenFile extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
+    _fileName = _form.requestString(Message.openFile());
     /*
     try {
       //FIXME implement command

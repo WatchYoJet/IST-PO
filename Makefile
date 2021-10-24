@@ -1,12 +1,12 @@
 run: compile execute
 	@make clean
 
-test: clean
+test: compile
 	@echo "--------------------"
 	@echo "STARTING TESTS"
 	@echo "--------------------"
-	@./tests/runtests.sh
-	@notify-send "PO TESTS" "COMPLETED" &> /dev/null
+	@./runtests.sh
+	@make clean
 clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
