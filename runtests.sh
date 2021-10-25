@@ -31,5 +31,5 @@ rm -f saved*
 ((tests--))
 
 echo "------------------------------"
-printf "${GREEN}RESULTS:${NC} ${GREEN}${done}/${tests}${NC}\n"
+printf "${GREEN}RESULTS:${NC} ${RED}${done}/${tests}${NC}\n"
 echo "------------------------------"
