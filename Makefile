@@ -1,12 +1,13 @@
 run: compile execute
-	@make clean
+	@make -s clean
 
 test: compile
 	@echo "--------------------"
 	@echo "STARTING TESTS"
 	@echo "--------------------"
 	@./runtests.sh
-	@make clean
+	@notify-send "PO-TESTS" "COMPLETE" &> /dev/null
+	@make -s clean
 clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
@@ -22,3 +23,4 @@ execute:
 	@echo "--EXECUTING--"
 	@java -cp po-uilib.jar:. ggc.app.App
 	@echo "--DONE--"
+
