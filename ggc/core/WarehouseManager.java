@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+import ggc.app.exception.InvalidDateException;
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.ImportFileException;
 import ggc.core.exception.UnavailableFileException;
@@ -34,7 +35,10 @@ public class WarehouseManager {
     return _warehouse.getDate();
   }
 
-  public void addDate(int increment){
+  public void addDate(int increment) throws InvalidDateException{
+    if (increment < 0){
+      throw new InvalidDateException(increment);
+    }
     _warehouse.addDate(increment);
   }
 

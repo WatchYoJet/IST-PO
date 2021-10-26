@@ -6,13 +6,10 @@ test: compile
 	@echo "STARTING TESTS"
 	@echo "--------------------"
 	@./runtests.sh
-	@notify-send "PO-TESTS" "COMPLETE" &> /dev/null
 	@make -s clean
 clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
-	@find . -type f -name '*.outhyp' -delete
-	@find . -type f -name '*.diff'   -delete
 
 compile: clean
 	@echo "--COMPILING--"
