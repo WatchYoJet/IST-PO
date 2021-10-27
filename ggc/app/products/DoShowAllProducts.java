@@ -1,5 +1,7 @@
 package ggc.app.products;
 
+import java.util.Collection;
+import ggc.core.SimpleProduct;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.core.WarehouseManager;
@@ -16,7 +18,11 @@ class DoShowAllProducts extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command
+    Collection <SimpleProduct> products = _receiver.getProduct();
+    for (SimpleProduct product : products){
+      _display.addLine(""+product.getID()+"|"+Math.round(product.getMaxPrice())+"|"+product.getQuantity());
+    }
+    _display.display();
   }
 
 }

@@ -1,18 +1,20 @@
 package ggc.core;
 
+import java.io.Serializable;
+
 import ggc.core.AggregateProduct;
 import ggc.core.Partner;
 import ggc.core.Product;
 
-public class Batch {
+public class Batch implements Serializable{
   private double _price;
   private int _quantity;
   private Product _product;
   private String _partner;
 
   public Batch(Product p, String price, String quantity, String partner){
-      _price = price;
-      _quantity = quantity;
+      _price = Double.parseDouble(price);
+      _quantity = Integer.parseInt(quantity);;
       _product = p;
       _partner = partner;
   }

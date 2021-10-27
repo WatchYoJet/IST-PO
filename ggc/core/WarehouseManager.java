@@ -15,7 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-import ggc.app.exception.InvalidDateException;
+import ggc.app.exception.InvalidDateException; //FIXME THIS IS WRONG
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.DuplicateKeyException;
 import ggc.core.exception.ImportFileException;
@@ -64,6 +64,7 @@ public class WarehouseManager {
 
   public Collection<Partner> getPartner(){return _warehouse.getPartner();}
 
+  public Collection<SimpleProduct> getProduct(){return _warehouse.getProduct();}
 //-------------------------------------
   public void addDate(int increment) throws InvalidDateException{
     if (increment < 0) throw new InvalidDateException(increment);

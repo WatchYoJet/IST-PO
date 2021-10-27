@@ -1,5 +1,5 @@
-*** tests/A-01-08-M-ok.out	Wed Oct 27 16:27:27 2021
---- tests/A-01-08-M-ok.outhyp	Wed Oct 27 18:23:40 2021
+*** tests/A-01-08-M-ok.out	2021-10-10 19:32:06.000000000 +0100
+--- tests/A-01-08-M-ok.outhyp	2021-10-28 00:39:16.452276000 +0100
 ***************
 *** 31,37 ****
   Escolha uma opção: MM|John Figueiredo|Wellington, New Zealand|NORMAL|0|0|0|0

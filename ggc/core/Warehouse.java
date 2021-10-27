@@ -31,13 +31,14 @@ public class Warehouse implements Serializable {
   private Date _date;
   private TreeMap<String, Partner> _partners;
   private ArrayList<Batch> _batches;
-  private ArrayList<Product> _products;
+  private TreeMap<String,SimpleProduct> _simpleProducts;
+  private TreeMap<String,AggregateProduct> _aggregateProducts;
 
   public Warehouse (){
     _date = new Date();
     _partners = new TreeMap<String, Partner>(String.CASE_INSENSITIVE_ORDER);
     _batches = new ArrayList<Batch>();
-    _products = new ArrayList<Product>();
+    _simpleProducts = new TreeMap<String,SimpleProduct>(String.CASE_INSENSITIVE_ORDER);
   }
 
   public boolean checkPartnerID(String id){return _partners.containsKey(id);}
@@ -49,16 +50,32 @@ public class Warehouse implements Serializable {
     _batches.add(b);
   }*/
 
-  public void registerBatchSimple(String name, String price, String quantity, String partnerName){
-    Product partner = new SimpleProduct(name);
-    Batch batch = new Batch(partner, price, quantity, partnerName);
-    _products.add(partner);
-    _batches.add(batch);
+  
+  public void registerBatchSimple(String name,
+                                  String price, 
+                                  String quantity, 
+                                  String partnerName){
+    if (_simpleProducts.containsKey(name)){
+      SimpleProduct product = _simpleProducts.get(name);
+      product.setNewMaxPrice(Double.parseDouble(price));
+      product.changeQuantity(Integer.parseInt(quantity));
+      Batch batch = new Batch(product, price, quantity, partnerName);
+      _batches.add(batch);
+    }else{
+      SimpleProduct product = new SimpleProduct(name, price, quantity);
+      _simpleProducts.put(name, product);
+      Batch batch = new Batch(product, price, quantity, partnerName);
+      _batches.add(batch);
+    }
   }
-
+  
   public void registerPartner(String name, String address, String id){
     _partners.put(id, new Partner(name, address, id));
   }
+
+  public SimpleProduct getProduct(String name){return _simpleProducts.get(name);}
+
+  public Collection<SimpleProduct> getProduct(){return _simpleProducts.values();}
 
   public Collection<Partner> getPartner(){return _partners.values();}
 
