@@ -29,7 +29,7 @@ class DoOpenFile extends Command<WarehouseManager> {
     try {
       _receiver.load(_fileName);
     } catch (Exception e){
-      e.printStackTrace();
+      throw new FileOpenFailedException(_fileName);
     }
   }
 

@@ -1,5 +1,5 @@
-*** tests/A-01-02-M-ok.out	Tue Oct 26 14:38:06 2021
---- tests/A-01-02-M-ok.outhyp	Wed Oct 27 03:25:36 2021
+*** tests/A-01-02-M-ok.out	Wed Oct 27 16:27:27 2021
+--- tests/A-01-02-M-ok.outhyp	Wed Oct 27 18:23:39 2021
 ***************
 *** 39,45 ****
   8 - Menu de Consultas
