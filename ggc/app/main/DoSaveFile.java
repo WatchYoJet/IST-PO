@@ -2,6 +2,10 @@ package ggc.app.main;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+import pt.tecnico.uilib.forms.Form;
+import ggc.app.exception.*;
+import ggc.core.exception.*;
+import java.io.IOException;
 import ggc.core.WarehouseManager;
 //FIXME import classes
 
@@ -10,6 +14,9 @@ import ggc.core.WarehouseManager;
  */
 class DoSaveFile extends Command<WarehouseManager> {
 
+  Form _form = new Form();
+  String _fileName;
+
   /** @param receiver */
   DoSaveFile(WarehouseManager receiver) {
     super(Label.SAVE, receiver);
@@ -17,7 +24,12 @@ class DoSaveFile extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command and create a local Form
+    _fileName = _form.requestString(Message.openFile());
+    try{
+      _receiver.saveAs(_fileName);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
 }

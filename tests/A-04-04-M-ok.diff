@@ -1,5 +1,5 @@
-*** tests/A-04-04-M-ok.out	2021-10-17 13:13:24.000000000 +0100
---- tests/A-04-04-M-ok.outhyp	2021-10-26 01:24:48.801206800 +0100
+*** tests/A-04-04-M-ok.out	Tue Oct 26 14:38:06 2021
+--- tests/A-04-04-M-ok.outhyp	Wed Oct 27 03:25:38 2021
 ***************
 *** 15,31 ****
   3 - Visualizar lotes fornecidos por parceiro

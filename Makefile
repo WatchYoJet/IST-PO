@@ -11,8 +11,13 @@ clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
 
+cleantest:
+	@find . -type f -name '*.diff'  -delete
+	@find . -type f -name '*.outhyp'  -delete
+
 compile: clean
 	@echo "--COMPILING--"
+	
 	@javac -cp po-uilib.jar:. `find ggc -name '*.java'`
 	@echo "--DONE--"
 

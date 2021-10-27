@@ -1,3 +1,4 @@
-Save file : WarehouseManager
-Load file : WarehouseManager
+Map<Partner, List<Notification>>
+treemap<partner, linkedlist<batch>>
 
+Map<id, partner> merdas = new TreeMap<id, partner>(String.CASE_INSENSITIVE_ORDER);
