@@ -4,18 +4,13 @@ import java.io.Serializable;
 public class Date implements Serializable{
 
   private int _days;
-  
-  public Date (int days){
-    _days = days;
-  }
 
   public Date (){
     _days = 0;
   }
 
-  public Date add(int increment){
+  public void add(int increment){
     _days += increment;
-    return this;
   }
 
   public int getDays(){

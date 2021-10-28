@@ -1,0 +1,19 @@
+*** tests/A-01-09-M-ok.out	Wed Oct 27 16:27:27 2021
+--- tests/A-01-09-M-ok.outhyp	Thu Oct 28 14:15:22 2021
+***************
+*** 20,26 ****
+  8 - Menu de Consultas
+  9 - Ver Saldo Global
+  0 - Sair
+! Escolha uma opção: Data actual: 20
+  Menu Principal
+  1 - Abrir
+  2 - Guardar
+--- 20,26 ----
+  8 - Menu de Consultas
+  9 - Ver Saldo Global
+  0 - Sair
+! Escolha uma opção: Data actual: 0
+  Menu Principal
+  1 - Abrir
+  2 - Guardar
