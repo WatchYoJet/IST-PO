@@ -2,6 +2,7 @@ run: compile execute
 	@make -s clean
 
 test: compile
+	@make -s cleantest
 	@echo "--------------------"
 	@echo "STARTING TESTS"
 	@echo "--------------------"

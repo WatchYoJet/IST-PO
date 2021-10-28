@@ -62,6 +62,8 @@ public class WarehouseManager {
     throw new UnknownKeyException();
   }
 
+  public Collection<Batch> getBatch(){return _warehouse.getBatch();}
+
   public Collection<Partner> getPartner(){return _warehouse.getPartner();}
 
   public Collection<SimpleProduct> getProduct(){return _warehouse.getProduct();}

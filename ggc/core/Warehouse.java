@@ -73,6 +73,8 @@ public class Warehouse implements Serializable {
     _partners.put(id, new Partner(name, address, id));
   }
 
+  public Collection<Batch> getBatch(){return _batches;}
+
   public SimpleProduct getProduct(String name){return _simpleProducts.get(name);}
 
   public Collection<SimpleProduct> getProduct(){return _simpleProducts.values();}
