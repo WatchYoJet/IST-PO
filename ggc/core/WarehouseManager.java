@@ -29,7 +29,6 @@ public class WarehouseManager {
 
   /** Name of file storing current warehouse. */
   private String _filename = "";
-  private boolean _fileHasChanged = false;
 
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
@@ -93,11 +92,14 @@ public class WarehouseManager {
     save();
   }
 
+  public String getFileName(){return _filename;}
+
   /**
    * @@param filename
    * @@throws UnavailableFileException
    */
   public void load(String filename) throws IOException, UnavailableFileException, ClassNotFoundException  {
+    _filename = filename;
     ObjectInputStream file = new ObjectInputStream(new FileInputStream(filename));
 		_warehouse = (Warehouse) file.readObject(); //casts the object of the file
     file.close();

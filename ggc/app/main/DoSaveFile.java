@@ -24,7 +24,8 @@ class DoSaveFile extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    _fileName = _form.requestString(Message.openFile());
+    _fileName = _receiver.getFileName();
+    if (_fileName.equals("")) _fileName = _form.requestString(Message.newSaveAs());
     try{
       _receiver.saveAs(_fileName);
     } catch (Exception e) {
