@@ -22,7 +22,6 @@ public abstract class Product implements Serializable {
     
     public void setNewMaxPrice(double newPrice){_maxPrice = Math.max(newPrice, _maxPrice);}
     public void changeQuantity(int increment){_quantity+=increment;}
-    //protected abstract void checkQuantity(int quantity, Partner partner);
     public String getID(){return _id;}
     public double getMaxPrice(){return _maxPrice;}
     public int getQuantity(){return _quantity;}

@@ -29,8 +29,10 @@ public class Warehouse implements Serializable {
   private Map<String, Partner> _partners;
   private List<Batch> _batches;
   private Map<String,SimpleProduct> _simpleProducts;
-  private Map<String,AggregateProduct> _aggregateProducts;
-
+  
+  /**
+   * Cunstructor
+   */
   public Warehouse (){
     _date = new Date();
     _partners = new TreeMap<String, Partner>(String.CASE_INSENSITIVE_ORDER);
@@ -38,9 +40,19 @@ public class Warehouse implements Serializable {
     _simpleProducts = new TreeMap<String,SimpleProduct>(String.CASE_INSENSITIVE_ORDER);
   }
 
+  /**
+   * @param id identifier of the requested partner
+   * @return returns a boolean to check if the partner exists
+   */
   public boolean checkPartnerID(String id){return _partners.containsKey(id);}
 
-  
+
+  /**
+   * @param name of the product
+   * @param price of the product
+   * @param quantity of the giving product
+   * @param partnerName of the partner
+   */
   public void registerBatchSimple(String name,
                                   String price, 
                                   String quantity, 
@@ -59,10 +71,18 @@ public class Warehouse implements Serializable {
     }
   }
   
+  /**
+   * @param name of the partner
+   * @param address of the partner
+   * @param id of the partner
+   */
   public void registerPartner(String name, String address, String id){
     _partners.put(id, new Partner(name, address, id));
   }
 
+  /**
+   * @return returns a list of all the current names
+   */
   private Collection<String> getBatchesNames(){
     List<String> names = new ArrayList<>();
     Iterator<Batch> itr=_batches.iterator();  
@@ -72,6 +92,9 @@ public class Warehouse implements Serializable {
     return names;
   }
 
+  /**
+   * @return returns a list of all the current partners
+   */
   private Collection<String> getBatchesPartnersNames(){
     List<String> partners = new ArrayList<>();
     Iterator<Batch> itr=_batches.iterator();  
@@ -81,6 +104,9 @@ public class Warehouse implements Serializable {
     return partners;
   }
 
+  /**
+   * @return returns a list of all the current prices
+   */
   private Collection<Double> getBatchesPrices(){
     List<Double> prices = new ArrayList<>();
     Iterator<Batch> itr=_batches.iterator();  
@@ -90,6 +116,9 @@ public class Warehouse implements Serializable {
     return prices;
   }
 
+  /**
+   * @return returns a list of all the current quantities
+   */
   private Collection<Integer> getBatchesQuantity(){
     List<Integer> quantity = new ArrayList<>();
     Iterator<Batch> itr=_batches.iterator();  
@@ -99,6 +128,10 @@ public class Warehouse implements Serializable {
     return quantity;
   }
 
+
+  /**
+   * @return all the batches stored in order
+   */
   public Collection<Batch> getBatch(){
     List<String> names = new ArrayList<String>(getBatchesNames());
     List<String> partners = new ArrayList<String>(getBatchesPartnersNames());
@@ -137,12 +170,25 @@ public class Warehouse implements Serializable {
 
   public SimpleProduct getProduct(String name){return _simpleProducts.get(name);}
 
+  /**
+   * @return returns all the stored Products
+   */
   public Collection<SimpleProduct> getProduct(){return _simpleProducts.values();}
 
+  /**
+   * @return returns all the stored partners
+   */
   public Collection<Partner> getPartner(){return _partners.values();}
 
+  /**
+   * @param id identifier of the requested partner
+   * @return returns the partner of the giving ID
+   */
   public Partner getPartner(String id){return _partners.get(id);}
 
+  /**
+   * @return the current date in int
+   */
   public int getDate(){return _date.getDays();}
 
   /**
@@ -155,7 +201,7 @@ public class Warehouse implements Serializable {
    * @throws IOException
    * @throws BadEntryException
    */
-  void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
+  void importFile(String txtfile) throws IOException, BadEntryException {
     File file = new File(txtfile);
     Scanner scanner = new Scanner(file);
     while (scanner.hasNextLine()) {

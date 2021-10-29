@@ -13,8 +13,6 @@ import ggc.core.WarehouseManager;
  */
 class DoAdvanceDate extends Command<WarehouseManager> {
 
-  Form _form = new Form();
-
   DoAdvanceDate(WarehouseManager receiver) {
     super(Label.ADVANCE_DATE, receiver);
     //FIXME add command fields
@@ -23,7 +21,7 @@ class DoAdvanceDate extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException{
     //FIXME implement command
-    int increment = _form.requestInteger(Message.requestDaysToAdvance());
+    int increment = Form.requestInteger(Message.requestDaysToAdvance());
     try{
       _receiver.addDate(increment);
     }catch(InvalidDateValueException e){

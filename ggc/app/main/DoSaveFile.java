@@ -13,8 +13,7 @@ import ggc.core.WarehouseManager;
  * Save current state to file under current name (if unnamed, query for name).
  */
 class DoSaveFile extends Command<WarehouseManager> {
-
-  Form _form = new Form();
+  
   String _fileName;
 
   /** @param receiver */
@@ -25,11 +24,11 @@ class DoSaveFile extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException {
     _fileName = _receiver.getFileName();
-    if ("".equals(_fileName)) _fileName = _form.requestString(Message.newSaveAs());
+    if ("".equals(_fileName)) _fileName = Form.requestString(Message.newSaveAs());
     try{
       _receiver.saveAs(_fileName);
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new FileOpenFailedException(_fileName);
     }
   }
 

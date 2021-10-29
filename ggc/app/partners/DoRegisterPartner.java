@@ -14,8 +14,6 @@ import ggc.app.exception.DuplicatePartnerKeyException;
  */
 class DoRegisterPartner extends Command<WarehouseManager> {
 
-  Form _form = new Form();
-
   DoRegisterPartner(WarehouseManager receiver) {
     super(Label.REGISTER_PARTNER, receiver);
     //FIXME add command fields
@@ -23,9 +21,9 @@ class DoRegisterPartner extends Command<WarehouseManager> {
 
   @Override
   public void execute() throws CommandException {
-    String id = _form.requestString(Message.requestPartnerKey());
-    String name = _form.requestString(Message.requestPartnerName());
-    String address = _form.requestString(Message.requestPartnerAddress());
+    String id = Form.requestString(Message.requestPartnerKey());
+    String name = Form.requestString(Message.requestPartnerName());
+    String address = Form.requestString(Message.requestPartnerAddress());
     try{
       _receiver.registerPartner(name, address, id);
     } catch (DuplicateKeyException e){

@@ -10,8 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
-
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.DuplicateKeyException;
 import ggc.core.exception.ImportFileException;
@@ -30,20 +28,22 @@ public class WarehouseManager {
   /** The wharehouse itself. */
   private Warehouse _warehouse = new Warehouse();
 
-  //FIXME define other attributes
-  //FIXME define constructor(s)
-  //FIXME define other methods
-
   /**
    * @@throws IOException
    * @@throws FileNotFoundException
    * @@throws MissingFileAssociationException
    */
 
-//-------------------------------------
+  /**
+   * @return the current WareHouse
+   */
   public Warehouse getWarehouse(){return _warehouse;}
-//-------------------------------------
 
+  /**
+   * @param name of the new Partner
+   * @param address of the new Partner
+   * @param id of the new Partner
+   */
   public void registerPartner(String name, String address, String id) throws DuplicateKeyException{
     if (! _warehouse.checkPartnerID(id)){
       _warehouse.registerPartner(name, address, id);
@@ -52,18 +52,31 @@ public class WarehouseManager {
     throw new DuplicateKeyException(id);
     //ADD EXCEPTION
   }
-
+  /**
+   * @param id of the requested Partner
+   * @return the Partner requested
+   */
   public Partner getPartner(String id) throws UnknownKeyException {
     if (_warehouse.checkPartnerID(id))return _warehouse.getPartner(id);
     throw new UnknownKeyException(id);
   }
-
+  /**
+   * @return all the Batches stored
+   */
   public Collection<Batch> getBatch(){return _warehouse.getBatch();}
-
+  /**
+   * @return all the Partners stored
+   */
   public Collection<Partner> getPartner(){return _warehouse.getPartner();}
-
+  /**
+   * @return all the Products stored
+   */
   public Collection<SimpleProduct> getProduct(){return _warehouse.getProduct();}
 //-------------------------------------
+  /**
+   * @@param increment of the current date
+   * @@throws InvalidDateValueException
+   */
   public void addDate(int increment) throws InvalidDateValueException{
     if (increment < 0) throw new InvalidDateValueException(increment);
     _warehouse.addDate(increment);
@@ -71,7 +84,11 @@ public class WarehouseManager {
   
   public int getDate(){return _warehouse.getDate();}
 //-------------------------------------
-  
+  /**
+   * @@throws IOException
+   * @@throws FileNotFoundException
+   * @@throws MissingFileAssociationException
+   */
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
     FileOutputStream fileOutPut = new FileOutputStream(_filename);
 		ObjectOutputStream file = new ObjectOutputStream(fileOutPut);
