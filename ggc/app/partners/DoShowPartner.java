@@ -15,8 +15,6 @@ import ggc.core.WarehouseManager;
  */
 class DoShowPartner extends Command<WarehouseManager> {
 
-  Form _form = new Form();
-
   DoShowPartner(WarehouseManager receiver) {
     super(Label.SHOW_PARTNER, receiver);
     //FIXME add command fields
@@ -25,7 +23,7 @@ class DoShowPartner extends Command<WarehouseManager> {
   @Override
   public void execute() throws CommandException {
     //FIXME implement command
-    String id = _form.requestString(Message.requestPartnerKey());
+    String id = Form.requestString(Message.requestPartnerKey());
     try{
       Partner p = _receiver.getPartner(id);
       _display.addLine(""+p.getID()+"|"
