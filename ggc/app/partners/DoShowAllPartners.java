@@ -35,5 +35,4 @@ class DoShowAllPartners extends Command<WarehouseManager> {
     }
     _display.display();
   }
-
 }

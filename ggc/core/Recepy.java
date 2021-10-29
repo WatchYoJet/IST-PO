@@ -2,9 +2,10 @@ package ggc.core;
 
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Map;
 
 public class Recepy {
-    private TreeMap<String, Integer> _recepy;
+    private Map<String, Integer> _recepy;
     
     public Recepy(){
         _recepy = new TreeMap<>();

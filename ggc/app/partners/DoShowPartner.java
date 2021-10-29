@@ -39,7 +39,7 @@ class DoShowPartner extends Command<WarehouseManager> {
       _display.display();
     }
     catch (UnknownKeyException e){
-      throw new UnknownPartnerKeyException(id);
+      throw new UnknownPartnerKeyException(e.getId());
     }
   }
 

@@ -1,6 +1,7 @@
 package ggc.app.main;
 
 import pt.tecnico.uilib.menus.Command;
+import ggc.core.exception.InvalidDateValueException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.app.exception.InvalidDateException;
@@ -22,7 +23,12 @@ class DoAdvanceDate extends Command<WarehouseManager> {
   @Override
   public final void execute() throws CommandException{
     //FIXME implement command
-    _receiver.addDate(_form.requestInteger(Message.requestDaysToAdvance()));
+    int increment = _form.requestInteger(Message.requestDaysToAdvance());
+    try{
+      _receiver.addDate(increment);
+    }catch(InvalidDateValueException e){
+      throw new InvalidDateException(e.getIncrement());
+    }
   }
 
 }

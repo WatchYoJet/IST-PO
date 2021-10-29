@@ -3,23 +3,20 @@ package ggc.core;
 // FIXME import classes (cannot import from pt.tecnico or ggc.app)
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
+import java.util.Map;
 
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
 
 import ggc.core.Batch;
-import ggc.core.Partner;
-import ggc.core.Product;
 import ggc.core.exception.BadEntryException;
-import ggc.core.exception.UnknownKeyException;
 
 /**
  * Class Warehouse implements a warehouse.
@@ -29,10 +26,10 @@ public class Warehouse implements Serializable {
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202109192006L;
   private Date _date;
-  private TreeMap<String, Partner> _partners;
-  private ArrayList<Batch> _batches;
-  private TreeMap<String,SimpleProduct> _simpleProducts;
-  private TreeMap<String,AggregateProduct> _aggregateProducts;
+  private Map<String, Partner> _partners;
+  private List<Batch> _batches;
+  private Map<String,SimpleProduct> _simpleProducts;
+  private Map<String,AggregateProduct> _aggregateProducts;
 
   public Warehouse (){
     _date = new Date();
@@ -42,13 +39,6 @@ public class Warehouse implements Serializable {
   }
 
   public boolean checkPartnerID(String id){return _partners.containsKey(id);}
-
-  /*
-  public void registerBatchAggregate(Product p, double price, int quantity, Partner partner){
-    Batch b = new Batch(p, price, quantity, partner);
-    b.setAggregateProduct();
-    _batches.add(b);
-  }*/
 
   
   public void registerBatchSimple(String name,
@@ -73,7 +63,77 @@ public class Warehouse implements Serializable {
     _partners.put(id, new Partner(name, address, id));
   }
 
-  public Collection<Batch> getBatch(){return _batches;}
+  private Collection<String> getBatchesNames(){
+    List<String> names = new ArrayList<>();
+    Iterator<Batch> itr=_batches.iterator();  
+    while(itr.hasNext()){  
+      names.add(itr.next().getProduct().getID());
+    }
+    return names;
+  }
+
+  private Collection<String> getBatchesPartnersNames(){
+    List<String> partners = new ArrayList<>();
+    Iterator<Batch> itr=_batches.iterator();  
+    while(itr.hasNext()){  
+      partners.add(itr.next().getPartner());
+    }
+    return partners;
+  }
+
+  private Collection<Double> getBatchesPrices(){
+    List<Double> prices = new ArrayList<>();
+    Iterator<Batch> itr=_batches.iterator();  
+    while(itr.hasNext()){  
+      prices.add(itr.next().getPrice());
+    }
+    return prices;
+  }
+
+  private Collection<Integer> getBatchesQuantity(){
+    List<Integer> quantity = new ArrayList<>();
+    Iterator<Batch> itr=_batches.iterator();  
+    while(itr.hasNext()){  
+      quantity.add(itr.next().getQuantity());
+    }
+    return quantity;
+  }
+
+  public Collection<Batch> getBatch(){
+    List<String> names = new ArrayList<String>(getBatchesNames());
+    List<String> partners = new ArrayList<String>(getBatchesPartnersNames());
+    List<Double> prices = new ArrayList<Double>(getBatchesPrices());
+    List<Integer> quantity = new ArrayList<Integer>(getBatchesQuantity());
+    Collections.sort(names, String.CASE_INSENSITIVE_ORDER);
+    Collections.sort(partners, String.CASE_INSENSITIVE_ORDER);
+    Collections.sort(prices);
+    Collections.sort(quantity);
+
+    List<Batch> batches = new ArrayList<>();
+
+    for(String name : names){
+      for (String partner : partners){
+        for (double price : prices){
+          for (int quant : quantity){
+            for(Batch batch : _batches){
+              boolean nameComp = batch.getProduct().getID().toLowerCase().equals(
+                        name.toLowerCase());
+              boolean partnerComp = batch.getPartner().toLowerCase().equals(
+                        partner.toLowerCase());
+              if (nameComp 
+              && partnerComp 
+              && batch.getPrice() == price 
+              && batch.getQuantity() == quant
+              && !batches.contains(batch)){
+                batches.add(batch);
+              }
+            }
+          }
+        }
+      }
+    }
+    return batches;
+  }
 
   public SimpleProduct getProduct(String name){return _simpleProducts.get(name);}
 
@@ -85,11 +145,10 @@ public class Warehouse implements Serializable {
 
   public int getDate(){return _date.getDays();}
 
+  /**
+   * @param increment integer to be added to the _date variable.
+   */
   public void addDate(int increment){_date.add(increment);}
-  
-  // FIXME define attributes
-  // FIXME define contructor(s)
-  // FIXME define methods
 
   /**
    * @param txtfile filename to be loaded.

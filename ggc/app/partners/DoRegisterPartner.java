@@ -29,7 +29,7 @@ class DoRegisterPartner extends Command<WarehouseManager> {
     try{
       _receiver.registerPartner(name, address, id);
     } catch (DuplicateKeyException e){
-      throw new DuplicatePartnerKeyException(id);
+      throw new DuplicatePartnerKeyException(e.getKey());
     }
   }
 

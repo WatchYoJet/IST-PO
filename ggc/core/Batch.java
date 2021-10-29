@@ -2,9 +2,6 @@ package ggc.core;
 
 import java.io.Serializable;
 
-import ggc.core.AggregateProduct;
-import ggc.core.Partner;
-import ggc.core.Product;
 
 public class Batch implements Serializable{
   private double _price;

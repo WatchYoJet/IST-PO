@@ -2,10 +2,7 @@ package ggc.core;
 
 //FIXME import classes (cannot import from pt.tecnico or ggc.app)
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
@@ -15,10 +12,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-import ggc.app.exception.InvalidDateException; //FIXME THIS IS WRONG
 import ggc.core.exception.BadEntryException;
 import ggc.core.exception.DuplicateKeyException;
 import ggc.core.exception.ImportFileException;
+import ggc.core.exception.InvalidDateValueException;
 import ggc.core.exception.UnavailableFileException;
 import ggc.core.exception.MissingFileAssociationException;
 import ggc.core.exception.UnknownKeyException;
@@ -52,13 +49,13 @@ public class WarehouseManager {
       _warehouse.registerPartner(name, address, id);
       return;
     }
-    throw new DuplicateKeyException();
+    throw new DuplicateKeyException(id);
     //ADD EXCEPTION
   }
 
   public Partner getPartner(String id) throws UnknownKeyException {
     if (_warehouse.checkPartnerID(id))return _warehouse.getPartner(id);
-    throw new UnknownKeyException();
+    throw new UnknownKeyException(id);
   }
 
   public Collection<Batch> getBatch(){return _warehouse.getBatch();}
@@ -67,8 +64,8 @@ public class WarehouseManager {
 
   public Collection<SimpleProduct> getProduct(){return _warehouse.getProduct();}
 //-------------------------------------
-  public void addDate(int increment) throws InvalidDateException{
-    if (increment < 0) throw new InvalidDateException(increment);
+  public void addDate(int increment) throws InvalidDateValueException{
+    if (increment < 0) throw new InvalidDateValueException(increment);
     _warehouse.addDate(increment);
   }
   
@@ -76,9 +73,11 @@ public class WarehouseManager {
 //-------------------------------------
   
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
-		ObjectOutputStream file = new ObjectOutputStream(new FileOutputStream(_filename));
+    FileOutputStream fileOutPut = new FileOutputStream(_filename);
+		ObjectOutputStream file = new ObjectOutputStream(fileOutPut);
 		file.writeObject(_warehouse);
 		file.close();
+    fileOutPut.close();
   }
 
   /**
@@ -100,9 +99,11 @@ public class WarehouseManager {
    */
   public void load(String filename) throws IOException, UnavailableFileException, ClassNotFoundException  {
     _filename = filename;
-    ObjectInputStream file = new ObjectInputStream(new FileInputStream(filename));
+    FileInputStream fileOutPut = new FileInputStream(filename);
+    ObjectInputStream file = new ObjectInputStream(fileOutPut);
 		_warehouse = (Warehouse) file.readObject(); //casts the object of the file
     file.close();
+    fileOutPut.close();
   }
 
   /**
