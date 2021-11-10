@@ -1,8 +1,0 @@
-colocar a data com deve de ser (exceptions etc.)
-data nao esta a ser salva no save e load
-colocar corretamente as exceptions do save e load
-verificar o Math.round do output dos comandos
-colocar os produtos derivados
-colocar as exceptions bem
-comentarios
-verificar se está tudo, retirar imports estupidos (import de app no core)

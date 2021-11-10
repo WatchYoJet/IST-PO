@@ -7,11 +7,11 @@ test: compile
 	@echo "STARTING TESTS"
 	@echo "--------------------"
 	@./runtests.sh
-	@mv ./tests/*.diff ./tests/diff
 	@make -s clean
 clean:
 	@echo "--CLEANING--"
 	@find . -type f -name '*.class'  -delete
+	@find . -type f -name '*.dat'  -delete
 
 cleantest:
 	@find . -type f -name '*.diff'  -delete

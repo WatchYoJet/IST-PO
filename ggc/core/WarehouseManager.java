@@ -108,6 +108,12 @@ public class WarehouseManager {
     save();
   }
 
+  public Collection<Batch> getBatchesByProduct(String productID) throws UnknownKeyException {
+    if (_warehouse.checkProduct(productID))return _warehouse.getBatchesByProduct(productID);
+    throw new UnknownKeyException(productID);
+  }
+
+
   public String getFileName(){return _filename;}
 
   /**

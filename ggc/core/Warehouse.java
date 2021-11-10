@@ -4,6 +4,7 @@ package ggc.core;
 
 import java.io.Serializable;
 import java.util.TreeMap;
+import java.util.function.ObjDoubleConsumer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -174,6 +175,20 @@ public class Warehouse implements Serializable {
    * @return returns all the stored Products
    */
   public Collection<SimpleProduct> getProduct(){return _simpleProducts.values();}
+
+
+  public Boolean checkProduct(String name){return _simpleProducts.containsKey(name);}
+
+  public Collection<Batch> getBatchesByProduct(String productId){
+    List<Batch> batches = new ArrayList<>();
+    for(Batch batch : _batches){
+      if (batch.getProduct().getID().equals(productId)){
+        batches.add(batch);
+      }
+    }
+    return batches;
+  }
+
 
   /**
    * @return returns all the stored partners

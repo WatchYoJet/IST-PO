@@ -2,7 +2,14 @@ package ggc.app.products;
 
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
+
+import java.util.Collection;
+
+import ggc.app.exception.UnknownProductKeyException;
+import ggc.core.Batch;
 import ggc.core.WarehouseManager;
+import ggc.core.exception.UnknownKeyException;
+import pt.tecnico.uilib.forms.Form;
 //FIXME import classes
 
 /**
@@ -17,7 +24,14 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command
+    String productId = Form.requestString(Message.requestProductKey());
+    try {
+      Collection <Batch> batches = _receiver.getBatchesByProduct(productId);
+    }
+    catch (UnknownKeyException e) {
+      throw new UnknownProductKeyException(e.getId());
+    }
+
   }
 
 }
