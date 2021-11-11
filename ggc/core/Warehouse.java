@@ -28,7 +28,11 @@ public class Warehouse implements Serializable {
   private Map<String, Partner> _partners;
   private List<Batch> _batches;
   private Map<String,SimpleProduct> _simpleProducts;
-  
+  private Map<Integer,Transaction> _transactions;
+  private double _balance;
+  private double _realBalance;
+  private int _nextTransactionId;
+
   /**
    * Cunstructor
    */
@@ -37,6 +41,10 @@ public class Warehouse implements Serializable {
     _partners = new TreeMap<String, Partner>(String.CASE_INSENSITIVE_ORDER);
     _batches = new ArrayList<Batch>();
     _simpleProducts = new TreeMap<String,SimpleProduct>(String.CASE_INSENSITIVE_ORDER);
+    _transactions = new TreeMap<Integer,Transaction>();
+    _balance = 0;
+    _realBalance = 0;
+    _nextTransactionId = 0;
   }
 
   /**
@@ -77,6 +85,16 @@ public class Warehouse implements Serializable {
    */
   public void registerPartner(String name, String address, String id){
     _partners.put(id, new Partner(name, address, id));
+  }
+
+  public SimpleProduct registerSimpleProduct(String name, String price, String quantity){
+    _simpleProducts.put(name, new SimpleProduct(name, price, quantity));
+    return _simpleProducts.get(name);
+  }
+
+  public void registerBatch(Product product, String price, String quantity, String partnerName){
+    Batch batch = new Batch(product, price, quantity, partnerName);
+    _batches.add(batch);
   }
 
   /**
@@ -248,14 +266,61 @@ public class Warehouse implements Serializable {
     scanner.close();
   }
 
-public Collection<Batch> lookupProductBatchesUnderGivenPrice(Double price) {
-  List<Batch> batches = new ArrayList<>(getBatch());
-  for(Batch batch : _batches){
-    if (batch.getPrice() > price){
-      batches.remove(batch);
+  public Collection<Batch> lookupProductBatchesUnderGivenPrice(Double price) {
+    List<Batch> batches = new ArrayList<>(getBatch());
+    for(Batch batch : _batches){
+      if (batch.getPrice() > price){
+        batches.remove(batch);
+      }
     }
+    return batches;
   }
-  return batches;
- }
 
+  public double getBalance() {
+      return _balance;
+  }
+
+  public double getRealBalance() {
+    return _realBalance;
+  }
+
+  public void changeRealBalance(double amount) {
+    _realBalance += amount;
+  }
+  
+  public void changeBalance(double amount) {
+    _balance += amount;
+  }
+
+  public void acquisition(String productID, String quantity, String partnerID, String price) {
+    if (checkProduct(productID)) {
+      SimpleProduct product = getProduct(productID);
+      product.setNewMaxPrice(Integer.parseInt(price));
+      product.changeQuantity(Integer.parseInt(quantity));
+      registerBatch(product, quantity, price, partnerID);
+    }else{
+      SimpleProduct product = registerSimpleProduct(productID, price, quantity);
+      registerBatch(product, quantity, price, partnerID);
+    }
+    if (getPartner(partnerID) == null) {
+      registerPartner(partnerID, price, productID);
+    }
+    changeBalance(-(Double.parseDouble(price) * Integer.parseInt(quantity)));
+    changeRealBalance(-(Double.parseDouble(price) * Integer.parseInt(quantity)));
+    if (getPartner(partnerID) != null)
+      getPartner(partnerID).changeBought(Double.parseDouble(price) * Integer.parseInt(quantity));
+    Transaction transaction = new Acquisition(_nextTransactionId, getDate(), Double.parseDouble(price) * Integer.parseInt(quantity),
+                              Integer.parseInt(quantity), getProduct(productID), getPartner(partnerID));
+    _transactions.put(_nextTransactionId, transaction);
+    _nextTransactionId++;
+  }
+
+  public boolean checkTransactionID(Integer transactionID) {
+    return _transactions.containsKey(transactionID);
+  }
+
+  public Transaction getTransaction(Integer transactionID) {
+    return _transactions.get(transactionID);
+  }
+  
 }

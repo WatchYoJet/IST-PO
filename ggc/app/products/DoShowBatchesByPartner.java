@@ -25,6 +25,13 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> {
     String partnerId = Form.requestString(Message.requestPartnerKey());
     try {
       Collection <Batch> batches = _receiver.getBatchesByPartner(partnerId);
+      for (Batch batch : batches){
+        _display.addLine(""+batch.getProduct().getID()
+                        +"|"+batch.getPartner()
+                        +"|"+Math.round(batch.getPrice())
+                        +"|"+batch.getQuantity());
+      }
+      _display.display();
     }
     catch (UnknownKeyException e) {
       throw new UnknownPartnerKeyException(e.getId());

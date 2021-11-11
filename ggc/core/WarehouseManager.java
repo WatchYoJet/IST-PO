@@ -148,4 +148,22 @@ public class WarehouseManager {
       throw new ImportFileException(textfile, e);
     }
   }
+
+  public double getBalance() {
+    return _warehouse.getBalance();
+  }
+
+  public double getRealBalance() {
+    return _warehouse.getRealBalance();
+  }
+
+  public void acquisition(String productID, String quantity, String partnerID, String price){
+    _warehouse.acquisition(productID, quantity, partnerID, price);
+  }
+
+  public Transaction getTransaction(Integer id) throws UnknownKeyException {
+    if (!_warehouse.checkTransactionID(id))throw new UnknownKeyException(id.toString());
+    return _warehouse.getTransaction(id);
+  }
+
 }

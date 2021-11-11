@@ -18,7 +18,7 @@ public class Batch implements Serializable{
     */
   public Batch(Product product, String price, String quantity, String partner){
       _price = Double.parseDouble(price);
-      _quantity = Integer.parseInt(quantity);;
+      _quantity = Integer.parseInt(quantity);
       _product = product;
       _partner = partner;
   }

@@ -63,6 +63,11 @@ public class Partner implements Serializable{
     * @return the number of sells bought of the Partner
   */
   public double getBought(){return _bought;}
+
+  /**
+    * Changes the value of sells bought from the Partner
+  */
+  public void changeBought(double increment){_bought += increment;}
   
   /**
     * @return the number of sellsDone of the Partner

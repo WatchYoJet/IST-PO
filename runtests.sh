@@ -27,7 +27,7 @@ for x in tests/*.in; do
 done
 
 
-mv ./tests/*.diff ./tests/diff/ &> /dev/null
+mv ./tests/*.diff ./diff/ &> /dev/null
 rm -f saved*
 
 ((tests--))
