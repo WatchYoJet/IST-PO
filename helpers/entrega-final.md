@@ -3,7 +3,7 @@
 ## Menu de Gestão de Produtos
 
 - Visualizar lotes fornecidos por parceiro
-- Visualizar lotes de um dado produto
+- [DONE] Visualizar lotes de um dado produto
 
 ## Menu de Gestão de Parceiros
 

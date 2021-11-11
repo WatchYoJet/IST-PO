@@ -3,6 +3,11 @@ package ggc.app.products;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.core.WarehouseManager;
+import ggc.app.exception.UnknownPartnerKeyException;
+import ggc.core.exception.UnknownKeyException;
+import pt.tecnico.uilib.forms.Form;
+import ggc.core.Batch;
+import java.util.Collection;
 //FIXME import classes
 
 /**
@@ -17,7 +22,13 @@ class DoShowBatchesByPartner extends Command<WarehouseManager> {
 
   @Override
   public final void execute() throws CommandException {
-    //FIXME implement command
+    String partnerId = Form.requestString(Message.requestPartnerKey());
+    try {
+      Collection <Batch> batches = _receiver.getBatchesByPartner(partnerId);
+    }
+    catch (UnknownKeyException e) {
+      throw new UnknownPartnerKeyException(e.getId());
+    }
   }
 
 }

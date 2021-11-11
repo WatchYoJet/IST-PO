@@ -113,6 +113,11 @@ public class WarehouseManager {
     throw new UnknownKeyException(productID);
   }
 
+  public Collection<Batch> getBatchesByPartner(String partnerID) throws UnknownKeyException {
+    if (_warehouse.checkPartnerID(partnerID))return _warehouse.getBatchesByPartner(partnerID);
+    throw new UnknownKeyException(partnerID);
+  }
+
 
   public String getFileName(){return _filename;}
 

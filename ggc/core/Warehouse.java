@@ -179,6 +179,19 @@ public class Warehouse implements Serializable {
 
   public Boolean checkProduct(String name){return _simpleProducts.containsKey(name);}
 
+  /**
+   * @return all the Batches given by the partner
+   */
+  public Collection<Batch> getBatchesByPartner(String id){
+    List<Batch> batches = new ArrayList<>();
+    for(Batch batch : _batches){
+      if (batch.getPartner().equals(id)){
+        batches.add(batch);
+      }
+    }
+    return batches;
+  }
+
   public Collection<Batch> getBatchesByProduct(String productId){
     List<Batch> batches = new ArrayList<>();
     for(Batch batch : _batches){
