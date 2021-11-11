@@ -2,7 +2,7 @@
 
 ## Menu de Gestão de Produtos
 
-- Visualizar lotes fornecidos por parceiro
+- [DONE] Visualizar lotes fornecidos por parceiro
 - [DONE] Visualizar lotes de um dado produto
 
 ## Menu de Gestão de Parceiros
@@ -28,3 +28,7 @@
 - tratar dos métodos do saldo -> apresentar accounting balance e etc
 - delivery methods de notificações -> strategy
 - mudar pontos de int para double
+
+## WTF
+
+- Mudei Prompt -> Message porque nao fazia sentido

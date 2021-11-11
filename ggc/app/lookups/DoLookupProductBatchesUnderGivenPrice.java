@@ -1,9 +1,15 @@
 package ggc.app.lookups;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import ggc.core.Batch;
+import ggc.core.Product;
+import ggc.core.WarehouseManager;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-import ggc.core.WarehouseManager;
-//FIXME import classes
+import pt.tecnico.uilib.forms.Form;
 
 /**
  * Lookup products cheaper than a given price.
@@ -17,7 +23,12 @@ public class DoLookupProductBatchesUnderGivenPrice extends Command<WarehouseMana
 
   @Override
   public void execute() throws CommandException {
-    //FIXME implement command
+    double price = Form.requestReal(Message.requestPriceLimit());
+    Collection<Batch> batches = _receiver.lookupProductBatchesUnderGivenPrice(price);
+    for (Batch batch : batches) {
+      _display.addLine(""+batch.getProduct().getID()+"|"+batch.getPartner()+"|"+Math.round(batch.getPrice())+"|"+batch.getQuantity());
+    }
+    _display.display();
   }
 
 }

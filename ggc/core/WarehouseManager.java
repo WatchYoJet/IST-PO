@@ -118,6 +118,9 @@ public class WarehouseManager {
     throw new UnknownKeyException(partnerID);
   }
 
+  public Collection<Batch> lookupProductBatchesUnderGivenPrice(Double price){
+    return _warehouse.lookupProductBatchesUnderGivenPrice(price);
+  }
 
   public String getFileName(){return _filename;}
 

@@ -1,22 +1,20 @@
 package ggc.core;
 
+import java.io.File;
+import java.io.IOException;
+
 // FIXME import classes (cannot import from pt.tecnico or ggc.app)
 
 import java.io.Serializable;
-import java.util.TreeMap;
-import java.util.function.ObjDoubleConsumer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import java.io.File;
 import java.util.Scanner;
-import java.io.IOException;
+import java.util.TreeMap;
 
-import ggc.core.Batch;
 import ggc.core.exception.BadEntryException;
 
 /**
@@ -248,5 +246,15 @@ public class Warehouse implements Serializable {
     }
     scanner.close();
   }
+
+public Collection<Batch> lookupProductBatchesUnderGivenPrice(Double price) {
+  List<Batch> batches = new ArrayList<>(getBatch());
+  for(Batch batch : _batches){
+    if (batch.getPrice() > price){
+      batches.remove(batch);
+    }
+  }
+  return batches;
+ }
 
 }
