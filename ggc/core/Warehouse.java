@@ -192,6 +192,7 @@ public class Warehouse implements Serializable {
 
   public Collection<Batch> getBatchesByProduct(String productId){
     List<Batch> batches = new ArrayList<>();
+
     for(Batch batch : _batches){
       if (batch.getProduct().getID().equals(productId)){
         batches.add(batch);

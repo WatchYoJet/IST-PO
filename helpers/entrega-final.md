@@ -21,7 +21,7 @@
 
 ## Menu de Consultas
 
-- Produtos com preço abaixo de limite
+- [DONE] Produtos com preço abaixo de limite
 - Faturas pagas por parceiro
 
 - falta a lógica de dar update aos Status (e a lógica de dar update aos pontos) também

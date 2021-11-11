@@ -27,6 +27,13 @@ class DoShowBatchesByProduct extends Command<WarehouseManager> {
     String productId = Form.requestString(Message.requestProductKey());
     try {
       Collection <Batch> batches = _receiver.getBatchesByProduct(productId);
+      for (Batch batch : batches){
+        _display.addLine(""+batch.getProduct().getID()
+                        +"|"+batch.getPartner()
+                        +"|"+Math.round(batch.getPrice())
+                        +"|"+batch.getQuantity());
+      }
+      _display.display();
     }
     catch (UnknownKeyException e) {
       throw new UnknownProductKeyException(e.getId());
