@@ -48,4 +48,12 @@ public class Batch implements Serializable{
   * @return the quantity of the product
   */
   public int getQuantity(){return _quantity;}
+
+  @Override
+  public String toString(){
+    return (""+getProduct().getID()
+    +"|"+getPartner()
+    +"|"+Math.round(getPrice())
+    +"|"+getQuantity());
+  }
 }

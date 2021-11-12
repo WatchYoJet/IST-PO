@@ -23,7 +23,7 @@ public class DoLookupProductBatchesUnderGivenPrice extends Command<WarehouseMana
     double price = Form.requestReal(Message.requestPriceLimit());
     Collection<Batch> batches = _receiver.lookupProductBatchesUnderGivenPrice(price);
     for (Batch batch : batches) {
-      _display.addLine(""+batch.getProduct().getID()+"|"+batch.getPartner()+"|"+Math.round(batch.getPrice())+"|"+batch.getQuantity());
+      _display.addLine(batch.toString());
     }
     _display.display();
   }

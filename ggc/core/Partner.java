@@ -101,4 +101,16 @@ public class Partner implements Serializable{
     
   }
 
+  @Override
+  public String toString(){
+    return ""+getID()+"|"
+    +getName()+"|"
+    +getAddress()+"|"
+    +getStatus()+"|"
+    +getPoints()+"|"
+    +Math.round(getBought())+"|"
+    +Math.round(getSellsDone())+"|"
+    +Math.round(getSellsPaid());
+  }
+
 }

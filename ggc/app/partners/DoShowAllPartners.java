@@ -24,14 +24,7 @@ class DoShowAllPartners extends Command<WarehouseManager> {
     //ADD TRY CATCH
     Collection <Partner> partners = _receiver.getPartner();
     for (Partner p : partners){
-      _display.addLine(""+p.getID()+"|"
-                        +p.getName()+"|"
-                        +p.getAddress()+"|"
-                        +p.getStatus()+"|"
-                        +p.getPoints()+"|"
-                        +Math.round(p.getBought())+"|"
-                        +Math.round(p.getSellsDone())+"|"
-                        +Math.round(p.getSellsPaid()));
+      _display.addLine(p.toString());
     }
     _display.display();
   }

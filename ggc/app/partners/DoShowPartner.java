@@ -31,14 +31,7 @@ class DoShowPartner extends Command<WarehouseManager> {
     String id = Form.requestString(Message.requestPartnerKey());
     try{
       Partner p = _receiver.getPartner(id);
-      _display.addLine(""+p.getID()+"|"
-                          +p.getName()+"|"
-                          +p.getAddress()+"|"
-                          +p.getStatus()+"|"
-                          +p.getPoints()+"|"
-                          +Math.round(p.getBought())+"|"
-                          +Math.round(p.getSellsDone())+"|"
-                          +Math.round(p.getSellsPaid()));
+      _display.addLine(p.toString());
       Collection<Notification> notifications = _receiver.getNotifications(id);
       if (notifications != null){
         for (Notification notification : notifications)

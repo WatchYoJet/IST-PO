@@ -22,7 +22,7 @@ class DoShowAllProducts extends Command<WarehouseManager> {
   public final void execute() throws CommandException {
     Collection <SimpleProduct> products = _receiver.getProduct();
     for (SimpleProduct product : products){
-      _display.addLine(""+product.getID()+"|"+Math.round(product.getMaxPrice())+"|"+product.getQuantity());
+      _display.addLine(product.toString());
     }
     _display.display();
   }

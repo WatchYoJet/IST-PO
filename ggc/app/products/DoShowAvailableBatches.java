@@ -21,10 +21,7 @@ class DoShowAvailableBatches extends Command<WarehouseManager> {
   public final void execute() throws CommandException {
     Collection <Batch> batches = _receiver.getBatch();
     for (Batch batch : batches){
-      _display.addLine(""+batch.getProduct().getID()
-                      +"|"+batch.getPartner()
-                      +"|"+Math.round(batch.getPrice())
-                      +"|"+batch.getQuantity());
+      _display.addLine(batch.toString());
     }
     _display.display();
   }
