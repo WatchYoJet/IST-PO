@@ -161,6 +161,10 @@ public class WarehouseManager {
     _warehouse.acquisition(productID, quantity, partnerID, price);
   }
 
+  public void sale(String productID, String quantity, String partnerID, Integer days){
+    _warehouse.sale(productID, quantity, partnerID, days);
+  }
+
   public Transaction getTransaction(Integer id) throws UnknownKeyException {
     if (!_warehouse.checkTransactionID(id))throw new UnknownKeyException(id.toString());
     return _warehouse.getTransaction(id);

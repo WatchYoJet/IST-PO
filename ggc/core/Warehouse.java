@@ -340,6 +340,42 @@ public class Warehouse implements Serializable {
     _nextTransactionId++;
   }
 
+  public void sale(String productID, String quantity, String partnerID, Integer days) {
+    for (String productkey : _simpleProducts.keySet()){
+      if (productkey.equals(productID)){
+        SimpleProduct product = getProduct(productID);
+        Collection<Batch> batches = getBatchesByProduct(productID);
+        Integer quantitySold = 0;
+        Integer allQuantity = 0;
+        Double totalPrice = 0.0;
+        for (Batch batch : batches) allQuantity += batch.getQuantity();
+        if (allQuantity >= Integer.parseInt(quantity)){
+          for (Batch batch : batches){
+            if (Integer.parseInt(quantity) > quantitySold && 
+                batch.getQuantity() != 0){
+              Double price = batch.getPrice();
+              totalPrice += price;
+              Integer holder = quantitySold;
+              quantitySold += batch.getQuantity();
+              batch.changeQuantity(-Integer.parseInt(quantity) - holder);
+              if (batch.getQuantity() == 0){
+                _batches.remove(batch);
+              }           
+            }
+            product.changeQuantity(-Integer.parseInt(quantity));
+          }
+          _balance += totalPrice * Integer.parseInt(quantity);
+          Transaction transaction = new SaleByCredit(_nextTransactionId, days, 
+                                    totalPrice * Integer.parseInt(quantity),
+                                    Integer.parseInt(quantity), getProduct(productID), getPartner(partnerID));
+          _transactions.put(_nextTransactionId, transaction);
+          _nextTransactionId++;
+          return;
+        }else return;
+      }
+    }
+  }
+
   public boolean checkTransactionID(Integer transactionID) {
     return _transactions.containsKey(transactionID);
   }
