@@ -3,6 +3,12 @@ package ggc.app.partners;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.core.WarehouseManager;
+import ggc.core.exception.UnknownKeyException;
+import pt.tecnico.uilib.forms.Form;
+import java.util.Collection;
+
+import ggc.app.exception.UnknownPartnerKeyException;
+import ggc.core.Transaction;
 //FIXME import classes
 
 /**
@@ -16,8 +22,17 @@ class DoShowPartnerSales extends Command<WarehouseManager> {
   }
 
   @Override
-  public void execute() throws CommandException {
-    //FIXME implement command
+  public void execute() throws CommandException, UnknownPartnerKeyException {
+    String id = Form.requestString(Message.requestPartnerKey());
+    try{
+      Collection<Transaction> transactions =  _receiver.showPartnerSales(id);
+      for (Transaction transaction : transactions) {
+        _display.addLine(transaction.toString());
+      }
+      _display.display();
+    }catch(UnknownKeyException e){
+      throw new UnknownPartnerKeyException(e.getId());
+    }
   }
-
 }
+

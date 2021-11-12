@@ -9,21 +9,31 @@ public abstract class Transaction implements Serializable{
     private int _quantity;
     private Product _product;
     private Partner _partner;
+    private String _type;
 
     public Transaction(int id, int paymentDate, double paymentAmount, 
-                    int quantity, Product product, Partner partner) {
+                    int quantity, Product product, Partner partner, String type) {
         _id = id;
         _paymentDate = paymentDate;
         _paymentAmount = paymentAmount;
         _quantity = quantity;
         _product = product;
         _partner = partner;
+        _type = type;
+    }
+
+    public void setType(String type) {
+        _type = type;
     }
 
     public Partner getPartner() {
         return _partner;
     }
 
+    public String getType() {
+        return _type;
+    }
+    
     public Product getProduct() {
         return _product;
     }

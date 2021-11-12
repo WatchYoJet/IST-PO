@@ -1,14 +1,17 @@
 package ggc.core;
 
+import java.security.PublicKey;
+
 public class Acquisition extends Transaction {
 
-    public Acquisition(int id, int paymentDate, double paymentAmount, int quantity, Product product, Partner partner) {
-        super(id, paymentDate, paymentAmount, quantity, product, partner);
+    public Acquisition(int id, int paymentDate, double paymentAmount, int quantity,
+     Product product, Partner partner, String type) {
+        super(id, paymentDate, paymentAmount, quantity, product, partner, type);
     }
-    
+
     @Override
     public String toString() {
-        return "COMPRA" + "|"+ getId() +
+        return ""+ getType() + "|"+ getId() +
         "|" + getPartner().getID()+
         "|" + getProduct().getID()+ 
         "|" + getQuantity()+

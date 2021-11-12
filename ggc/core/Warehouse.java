@@ -6,6 +6,7 @@ import java.io.IOException;
 // FIXME import classes (cannot import from pt.tecnico or ggc.app)
 
 import java.io.Serializable;
+import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,7 +16,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import javax.swing.plaf.synth.SynthStyle;
+
 import ggc.core.exception.BadEntryException;
+import ggc.core.exception.UnknownKeyException;
 
 /**
  * Class Warehouse implements a warehouse.
@@ -30,6 +34,8 @@ public class Warehouse implements Serializable {
   private Map<String,SimpleProduct> _simpleProducts;
   private Map<String,CompositeProduct> _compositeProducts;
   private Map<Integer,Transaction> _transactions;
+  private Map<String,List<Notification>> _notifications;
+  private Map<String, List<Partner>> _interestedPartners;
   private double _balance;
   private double _realBalance;
   private int _nextTransactionId;
@@ -44,6 +50,8 @@ public class Warehouse implements Serializable {
     _simpleProducts = new TreeMap<String,SimpleProduct>(String.CASE_INSENSITIVE_ORDER);
     _transactions = new TreeMap<Integer,Transaction>();
     _compositeProducts = new TreeMap<String,CompositeProduct>(String.CASE_INSENSITIVE_ORDER);
+    _notifications = new TreeMap<String,List<Notification>>();
+    _interestedPartners = new TreeMap<String, List<Partner>>();
     _balance = 0;
     _realBalance = 0;
     _nextTransactionId = 0;
@@ -74,6 +82,8 @@ public class Warehouse implements Serializable {
       _batches.add(batch);
     }else{
       SimpleProduct product = new SimpleProduct(name, price, quantity);
+      List <Partner> partners = new ArrayList<>(_partners.values());
+      _interestedPartners.put(name, partners);
       _simpleProducts.put(name, product);
       Batch batch = new Batch(product, price, quantity, partnerName);
       _batches.add(batch);
@@ -315,10 +325,61 @@ public class Warehouse implements Serializable {
     _balance += amount;
   }
 
+  public void setNewProductNotifications(Product product, Double price) {
+    Notification notification = new Notification(NotificationTypes.NEW, price, product);
+    for (Partner partner : _partners.values()) {
+      if (_interestedPartners.get(product.getID()) != null)
+        if (_interestedPartners.get(product.getID()).contains(partner)){
+          List<Notification> notifications = new ArrayList<Notification>();
+          notifications.add(notification);
+          _notifications.put(partner.getID(), notifications);
+        }
+    }
+  }
+
+  public void sendNotifications(Product product, Double price) {
+    Double lowerPrice = _batches.get(0).getPrice();
+    for(Batch batch : _batches){
+      if ((batch.getPrice()) < lowerPrice) lowerPrice = batch.getPrice();
+    }
+    if (price < lowerPrice) {
+      for (Partner partner : _partners.values()) {
+        if (_interestedPartners.get(product.getID()).contains(partner)){
+          Notification notification = new Notification(NotificationTypes.BARGAIN, price, product);
+          List<Notification> notifications = new ArrayList<Notification>();
+          notifications.add(notification);
+          _notifications.put(partner.getID(), notifications);
+        }
+      }
+    }
+  }
+
+  public void toggleNotification(String productID, String partnerID) throws UnknownKeyException {
+    if (_interestedPartners.get(productID).contains(getPartner(partnerID))) {
+      _interestedPartners.get(productID).remove(getPartner(partnerID));
+    } else {
+      _interestedPartners.get(productID).add(getPartner(partnerID));
+    }
+  }
+
+  public void clearNotifications(String partnerID) {
+    _notifications.get(partnerID).clear();
+  }
+
+  public Collection<Notification> getNotifications(String partnerID) {
+    if (getPartner(partnerID) != null) 
+      if (_notifications.containsKey(partnerID))
+        return _notifications.get(partnerID);
+    return null;
+  }
+
   public void acquisition(String productID, String quantity, String partnerID, String price) {
     if (checkProduct(productID)) {
       SimpleProduct product = getProduct(productID);
       product.setNewMaxPrice(Integer.parseInt(price));
+      if (getProduct(productID).getQuantity() == 0)setNewProductNotifications(getProduct(productID),
+                                                  Double.parseDouble(price) * Integer.parseInt(quantity));
+      else sendNotifications(getProduct(productID), Double.parseDouble(price));
       product.changeQuantity(Integer.parseInt(quantity));
       registerBatch(product, price, quantity, partnerID);
     }else{
@@ -335,7 +396,7 @@ public class Warehouse implements Serializable {
     Transaction transaction = new Acquisition(_nextTransactionId, getDate(),
                               Double.parseDouble(price) * Integer.parseInt(quantity),
                               Integer.parseInt(quantity), getProduct(productID),
-                              getPartner(partnerID));
+                              getPartner(partnerID), "COMPRA");
     _transactions.put(_nextTransactionId, transaction);
     _nextTransactionId++;
   }
@@ -367,9 +428,10 @@ public class Warehouse implements Serializable {
           _balance += totalPrice * Integer.parseInt(quantity);
           Transaction transaction = new SaleByCredit(_nextTransactionId, days, 
                                     totalPrice * Integer.parseInt(quantity),
-                                    Integer.parseInt(quantity), getProduct(productID), getPartner(partnerID));
+                                    Integer.parseInt(quantity), getProduct(productID), getPartner(partnerID), "VENDA");
           _transactions.put(_nextTransactionId, transaction);
           _nextTransactionId++;
+          getPartner(transaction.getPartner().getID()).changeSellsDone(transaction.getPaymentAmount());
           return;
         }else return;
       }
@@ -387,11 +449,45 @@ public class Warehouse implements Serializable {
   public Collection<Transaction> showPartnerAcquisitions(String id){
     List<Transaction> transactions = new ArrayList<>();
     for (Transaction transaction : _transactions.values()) {
-      if (transaction.getPartner().getID().equals(id)) {
+      if (transaction.getType().equals("COMPRA") && transaction.getPartner().getID().equals(id)) {
         transactions.add(transaction);
       }
     }
     return transactions;
   }
 
+  public void receivePayment(int id){
+    Transaction transaction = getTransaction(id);
+    if (transaction ==  null) return;
+    String type = transaction.getType();
+    if (type.equals("VENDA")){
+      SaleByCredit sale = (SaleByCredit) transaction;
+      if (!sale.isPaid()){
+        sale.pay(_date.getDays());
+        changeRealBalance(sale.getValue());
+        getPartner(transaction.getPartner().getID()).changeSellsPaid(sale.getValue());
+      }
+    }
+  }
+
+  public Collection<Transaction> showPartnerSalesPaid(String id){
+    List<Transaction> transactions = new ArrayList<>();
+    for (Transaction transaction : _transactions.values()) {
+      if (transaction.getType().equals("VENDA") && transaction.getPartner().getID().equals(id) ) {
+        if (((SaleByCredit) transaction).isPaid()) transactions.add(transaction);
+      }
+    }
+    return transactions; 
+  }
+
+
+  public Collection<Transaction> showPartnerSales(String id){
+    List<Transaction> transactions = new ArrayList<>();
+    for (Transaction transaction : _transactions.values()) {
+      if (transaction.getType().equals("VENDA") && transaction.getPartner().getID().equals(id)) {
+        transactions.add(transaction);
+      }
+    }
+    return transactions; 
+  }
 }

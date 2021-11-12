@@ -4,7 +4,12 @@ import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
 import ggc.core.exception.UnknownKeyException;
+
+import java.util.Collection;
+import java.util.List;
+
 import ggc.app.exception.UnknownPartnerKeyException;
+import ggc.core.Notification;
 import ggc.core.Partner;
 import ggc.core.WarehouseManager;
 //FIXME import classes
@@ -34,7 +39,14 @@ class DoShowPartner extends Command<WarehouseManager> {
                           +Math.round(p.getBought())+"|"
                           +Math.round(p.getSellsDone())+"|"
                           +Math.round(p.getSellsPaid()));
+      Collection<Notification> notifications = _receiver.getNotifications(id);
+      if (notifications != null){
+        for (Notification notification : notifications)
+          _display.addLine(notification.toString());
+        _receiver.clearNotifications(id);
+      }
       _display.display();
+
     }
     catch (UnknownKeyException e){
       throw new UnknownPartnerKeyException(e.getId());

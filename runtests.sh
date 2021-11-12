@@ -34,4 +34,5 @@ rm -f saved*
 
 echo "-------------------------------"
 printf "${GREEN}RESULTS:${NC} ${RED}${done}/${tests}${NC}\n"
+printf "$(($((done / tests))* 100))\n"
 echo "-------------------------------"

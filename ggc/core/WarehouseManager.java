@@ -170,8 +170,38 @@ public class WarehouseManager {
     return _warehouse.getTransaction(id);
   }
 
-  public Collection<Transaction> showPartnerAcquisitions(String id) {
+  public Collection<Transaction> showPartnerAcquisitions(String id) throws UnknownKeyException {
+    if (!_warehouse.checkPartnerID(id))throw new UnknownKeyException(id);
     return _warehouse.showPartnerAcquisitions(id);
   }
 
+  public void toggleNotification(String productID, String partnerID) throws UnknownKeyException{
+    if (_warehouse.getProduct(productID) == null)throw new UnknownKeyException(productID);
+    if (_warehouse.getPartner(partnerID) == null)throw new UnknownKeyException(partnerID);
+    System.out.println(_warehouse.getProduct(productID).getID());
+    _warehouse.toggleNotification(productID, partnerID);
+  }
+
+  public Collection<Notification> getNotifications(String partnerID){
+    return _warehouse.getNotifications(partnerID);
+  }
+
+  public void clearNotifications(String partnerID){
+    _warehouse.clearNotifications(partnerID);
+  }
+
+  public void receivePayment(Integer id) throws UnknownKeyException{
+    if (!_warehouse.checkTransactionID(id))throw new UnknownKeyException(id.toString());
+    _warehouse.receivePayment(id);
+  }
+
+  public Collection<Transaction> showPartnerSales(String id) throws UnknownKeyException {
+    if (!_warehouse.checkPartnerID(id))throw new UnknownKeyException(id);
+    return _warehouse.showPartnerSales(id);
+  }
+
+  public Collection<Transaction> showPartnerSalesPaid(String id) throws UnknownKeyException {
+    if (!_warehouse.checkPartnerID(id))throw new UnknownKeyException(id);
+    return _warehouse.showPartnerSalesPaid(id);
+  }
 }

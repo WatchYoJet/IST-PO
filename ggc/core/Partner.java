@@ -74,6 +74,10 @@ public class Partner implements Serializable{
   */
   public double getSellsDone(){return _sellsDone;}
   
+  public void changeSellsDone(double increment){_sellsDone += increment;}
+
+  public void changeSellsPaid(double increment){_sellsPaid += increment;}
+
   /**
     * @return the number of sellsPaid of the Partner
   */
