@@ -1,15 +1,12 @@
 package ggc.app.lookups;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import ggc.core.Batch;
-import ggc.core.Product;
 import ggc.core.WarehouseManager;
+import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
-import pt.tecnico.uilib.forms.Form;
 
 /**
  * Lookup products cheaper than a given price.

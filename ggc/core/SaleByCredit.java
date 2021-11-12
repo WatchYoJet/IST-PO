@@ -18,7 +18,7 @@ public class SaleByCredit extends Transaction{
     
     private void calculateTicket(){
         int N = 5;
-        if (_paidDate < N) _ticket = Ticket.P1;
+        if (_paidDate < N) _ticket = Ticket.P1;  
         else if (_paidDate < getPaymentDate()) _ticket = Ticket.P2;
         else if (_paidDate <= getPaymentDate() + N) _ticket = Ticket.P3;
         else _ticket = Ticket.P4;
@@ -30,6 +30,7 @@ public class SaleByCredit extends Transaction{
         switch(_ticket){
             case P1:
                 value = getPaymentAmount() * 0.9;
+                if (_isPaid) getPartner().changePoints((int) (10* _value));
                 break;
             case P2:
                 if (getPartner().getStatus().equals(Status.NORMAL))
@@ -39,6 +40,7 @@ public class SaleByCredit extends Transaction{
                     else value = getPaymentAmount();
                 else if (getPartner().getStatus().equals(Status.ELITE))
                     value = getPaymentAmount() - (getPaymentAmount() * 0.1);
+                if (_isPaid) getPartner().changePoints((int) (10* _value));
                 break;
             case P3:
                 if (getPartner().getStatus().equals(Status.NORMAL))
@@ -49,7 +51,7 @@ public class SaleByCredit extends Transaction{
                     else value = getPaymentAmount();
                 else if (getPartner().getStatus().equals(Status.ELITE))
                     value = getPaymentAmount() - (getPaymentAmount() * 0.05);
-                break;
+                    break;
             case P4:
                 if (getPartner().getStatus().equals(Status.NORMAL))
                     value = getPaymentAmount() + (getPaymentAmount() * (days/10));
@@ -57,19 +59,30 @@ public class SaleByCredit extends Transaction{
                     value = getPaymentAmount() + (getPaymentAmount() * (days/20));
                 else if (getPartner().getStatus().equals(Status.ELITE))
                     value = getPaymentAmount();
-                break;
-        default:
             break;
+            default:
+                    break;
+                }
+        
+        if (_isPaid && days > 15 && getPartner().getStatus().equals(Status.ELITE)){
+            getPartner().changePoints((int) (-getPartner().getPoints()*0.75));
+            getPartner().demote();
         }
+        if (_isPaid && days > 2 && getPartner().getStatus().equals(Status.SELECTION)){
+            getPartner().changePoints((int) (-getPartner().getPoints()*0.90));
+            getPartner().demote();
+        }
+        if (_isPaid && days > 0 &&getPartner().getStatus().equals(Status.NORMAL))
+            getPartner().changePoints(-getPartner().getPoints());
         _value = value;
     }
 
     public void pay(int paidDate){
         if (!_isPaid){
+            _isPaid = true;
             _paidDate = paidDate;
             calculateTicket();
             calculateValue();
-            _isPaid = true;
         }
     }
 

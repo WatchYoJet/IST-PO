@@ -32,7 +32,17 @@ public class Partner implements Serializable{
   /**
     * @param increment the points of the Partner
   */
-  public void changePoints(int increment){_points += increment;}
+  public void changePoints(int increment){
+    _points += increment;
+    promote();
+  }
+
+  public void promote(){
+    if(_points >= 25000)
+      _status = Status.ELITE;
+    else if(_points >= 2000)
+      _status = Status.SELECTION;
+  }
 
   /**
     * @return the name of the Partner
@@ -82,4 +92,13 @@ public class Partner implements Serializable{
     * @return the number of sellsPaid of the Partner
   */
   public double getSellsPaid(){return _sellsPaid;}
+
+  public void demote(){
+    if (_status == Status.SELECTION)
+      _status = Status.NORMAL;
+    else if(_status == Status.ELITE)
+      _status = Status.SELECTION;
+    
+  }
+
 }
