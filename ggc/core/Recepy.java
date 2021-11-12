@@ -12,6 +12,14 @@ public class Recepy {
         _recepy = new TreeMap<>();
     }
 
+    public Recepy(Map<String, Integer> recepy){
+        _recepy = recepy;
+    }
+
+    public Map<String, Integer> getRecepy(){
+        return _recepy;
+    }
+
     /**
     * @param key of the product
     * @param quantity of the product

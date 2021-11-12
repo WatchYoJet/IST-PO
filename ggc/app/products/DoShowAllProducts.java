@@ -1,6 +1,8 @@
 package ggc.app.products;
 
 import java.util.Collection;
+
+import ggc.core.Batch;
 import ggc.core.SimpleProduct;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;

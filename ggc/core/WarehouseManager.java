@@ -166,4 +166,8 @@ public class WarehouseManager {
     return _warehouse.getTransaction(id);
   }
 
+  public Collection<Transaction> showPartnerAcquisitions(String id) {
+    return _warehouse.showPartnerAcquisitions(id);
+  }
+
 }

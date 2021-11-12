@@ -28,6 +28,7 @@ public class Warehouse implements Serializable {
   private Map<String, Partner> _partners;
   private List<Batch> _batches;
   private Map<String,SimpleProduct> _simpleProducts;
+  private Map<String,CompositeProduct> _compositeProducts;
   private Map<Integer,Transaction> _transactions;
   private double _balance;
   private double _realBalance;
@@ -42,6 +43,7 @@ public class Warehouse implements Serializable {
     _batches = new ArrayList<Batch>();
     _simpleProducts = new TreeMap<String,SimpleProduct>(String.CASE_INSENSITIVE_ORDER);
     _transactions = new TreeMap<Integer,Transaction>();
+    _compositeProducts = new TreeMap<String,CompositeProduct>(String.CASE_INSENSITIVE_ORDER);
     _balance = 0;
     _realBalance = 0;
     _nextTransactionId = 0;
@@ -254,16 +256,37 @@ public class Warehouse implements Serializable {
       String[] scrape = line.split("\\|");
       switch (scrape[0]) {
         case "PARTNER":
-          this.registerPartner(scrape[2], scrape[3], scrape[1]);
+          registerPartner(scrape[2], scrape[3], scrape[1]);
           break;
         case "BATCH_S":
-          this.registerBatchSimple(scrape[1], scrape[3], scrape[4], scrape[2]);
+          registerBatchSimple(scrape[1], scrape[3], scrape[4], scrape[2]);
+          break;
+        case "BATCH_M":
+          Map<String, Integer> recepyInput = new TreeMap<>();
+          String[] recepyString =  scrape[6].split("#");
+          for (int i = 0; i < recepyString.length; i++) {
+            String[] recepyScrape = recepyString[i].split(":");
+            recepyInput.put(recepyScrape[0], Integer.parseInt(recepyScrape[1]));
+          }
+          Recepy recepy = new Recepy(recepyInput);
+          registerCompositeProduct(scrape[1], scrape[2], scrape[3], scrape[4], recepy, scrape[5]);
           break;
         default:
           break;
       }
     }
     scanner.close();
+  }
+
+  public void registerCompositeProduct(String id, 
+                                      String partnerName,
+                                      String price, 
+                                      String quantity,
+                                      Recepy recepy,
+                                      String agravement){
+    CompositeProduct product = new CompositeProduct(id, price, quantity, recepy, agravement);
+    _batches.add(new Batch(product, price, quantity, partnerName));
+    _compositeProducts.put(id, product);
   }
 
   public Collection<Batch> lookupProductBatchesUnderGivenPrice(Double price) {
@@ -297,10 +320,10 @@ public class Warehouse implements Serializable {
       SimpleProduct product = getProduct(productID);
       product.setNewMaxPrice(Integer.parseInt(price));
       product.changeQuantity(Integer.parseInt(quantity));
-      registerBatch(product, quantity, price, partnerID);
+      registerBatch(product, price, quantity, partnerID);
     }else{
       SimpleProduct product = registerSimpleProduct(productID, price, quantity);
-      registerBatch(product, quantity, price, partnerID);
+      registerBatch(product, price, quantity, partnerID);
     }
     if (getPartner(partnerID) == null) {
       registerPartner(partnerID, price, productID);
@@ -309,8 +332,10 @@ public class Warehouse implements Serializable {
     changeRealBalance(-(Double.parseDouble(price) * Integer.parseInt(quantity)));
     if (getPartner(partnerID) != null)
       getPartner(partnerID).changeBought(Double.parseDouble(price) * Integer.parseInt(quantity));
-    Transaction transaction = new Acquisition(_nextTransactionId, getDate(), Double.parseDouble(price) * Integer.parseInt(quantity),
-                              Integer.parseInt(quantity), getProduct(productID), getPartner(partnerID));
+    Transaction transaction = new Acquisition(_nextTransactionId, getDate(),
+                              Double.parseDouble(price) * Integer.parseInt(quantity),
+                              Integer.parseInt(quantity), getProduct(productID),
+                              getPartner(partnerID));
     _transactions.put(_nextTransactionId, transaction);
     _nextTransactionId++;
   }
@@ -323,4 +348,14 @@ public class Warehouse implements Serializable {
     return _transactions.get(transactionID);
   }
   
+  public Collection<Transaction> showPartnerAcquisitions(String id){
+    List<Transaction> transactions = new ArrayList<>();
+    for (Transaction transaction : _transactions.values()) {
+      if (transaction.getPartner().getID().equals(id)) {
+        transactions.add(transaction);
+      }
+    }
+    return transactions;
+  }
+
 }
